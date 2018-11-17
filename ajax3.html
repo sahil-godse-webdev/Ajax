@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>External API</title>
+        <style>
+            .output{
+                display: flex;
+                padding: 10px;
+                background: #f4f4f4;
+            }
+            ul li{
+                list-style: none;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="b1">Load Git Hub Users</button>
+        <h1>Git Users</h1>
+        <div id="users"></div>
+    </body>
+    <script>
+        document.getElementById('b1').addEventListener('click',loadgit);
+        function loadgit(){
+            var xhr=new XMLHttpRequest();
+            xhr.open('GET','https://api.github.com/users',true);
+            xhr.onload=function(){
+                if(this.status==200){
+                    var gitusers=JSON.parse(this.responseText);
+                }
+                //console.log(output);
+                var output='';
+                for(var i in gitusers){
+                    output+='<div class="output">'+'<img src="'+gitusers[i].avatar_url+'" width="70" height="70">'+
+                        '<ul>'+'<li>ID:'+gitusers[i].id+'</li>'+'<li>LOGIN:'+gitusers[i].login+'</li>'+'</ul>'+'</div>';
+                }
+                document.getElementById('users').innerHTML=output;
+            }
+            xhr.send();
+        }
+        
+
+    </script>
+</html>
